@@ -19,3 +19,6 @@ Sample_Project/*.moved-aside
 Sample_Project/DerivedData
 Sample_Project/.idea/
 Sample_Project/astlane/screenshots
+Sample_Project/Pods/
+Sample_Project/Podfile.lock
+Sample_Project/*.xcworkspace
