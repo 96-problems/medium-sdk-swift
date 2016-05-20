@@ -1,0 +1,23 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'medium-sdk-swift-sample' do
+  # Comment this line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for medium-sdk-swift-sample
+  pod 'OAuthSwift', '~> 0.5.2'
+  pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+  pod 'Alamofire', '~> 3.4'
+
+  target 'medium-sdk-swift-sampleTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'medium-sdk-swift-sampleUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
