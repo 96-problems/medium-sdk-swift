@@ -24,7 +24,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "List of own publications",
         "List of publications's contributors",
         "Create a post",
-        "Create a post under publication"
+        "Create a post under publication",
+        "Sign out"
     ]
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,17 +41,47 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.row {
         case 0:
-            mediumSession.doOAuthMedium()
+            mediumSession.doOAuthMedium() { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n Your Medium token is: \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 1:
-            mediumSession.checkCred()
+            mediumSession.checkCred() { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n Your Medium token is: \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 2:
-            mediumSession.ownCredentialsRequest()
+            mediumSession.ownCredentialsRequest() { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n  Your user ID is: \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 3:
-            mediumSession.userPublicationsListRequest()
+            mediumSession.userPublicationsListRequest() { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 4:
             // Sample postID, feel free to use any other post ID of yours to test this function
             let postID = "b6bdc04b3925"
-            mediumSession.getListOfContributors(postID)
+            mediumSession.getListOfContributors(postID) { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 5:
             let title = "The first post published with SDK CC license"
             let contentFormat = "html"
@@ -61,7 +92,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let licence = MediumLicense.cc40bync
             
             //        mediumSession.createPost(title, contentFormat: contentFormat, content: content, canonicalUrl: canonicalUrl)
-            mediumSession.createPost(title, contentFormat: contentFormat, content: content, canonicalUrl: canonicalUrl, tags: tags, publishStatus: publishStatus, license: licence)
+            mediumSession.createPost(title, contentFormat: contentFormat, content: content, canonicalUrl: canonicalUrl, tags: tags, publishStatus: publishStatus, license: licence) { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         case 6:
             // In order to check this functionality - enter the root publication ID you got edit rights to
             let rootPublication = ""
@@ -74,7 +111,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let licence = MediumLicense.publicDomain
             
             //        mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, tags: tags)
-            mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, tags: tags, canonicalUrl: canonicalUrl, publishStatus: publishStatus, license: licence)
+            mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, tags: tags, canonicalUrl: canonicalUrl, publishStatus: publishStatus, license: licence) { state, message in
+                if state == "success" {
+                    self.showAlert("Success! \n\n \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
+        case 7:
+            mediumSession.signOutMedium() { state, message in
+                if state == "success" {
+                    self.showAlert("Success: \n\n \(message)")
+                } else {
+                    self.showAlert("Error: \n \(message)")
+                }
+            }
         default:
             return
         }
@@ -89,6 +140,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource    =   self
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(self.tableView)
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Cancel) { [unowned self] _ in
+            //            self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        presentViewController(alert, animated: true, completion: nil)
     }
 
 }

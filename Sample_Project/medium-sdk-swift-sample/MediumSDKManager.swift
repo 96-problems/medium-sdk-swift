@@ -35,15 +35,16 @@ class MediumSDKManager: NSObject {
     static let sharedInstance = MediumSDKManager()
     private override init() {}
     
+    // Using user defaults to store userID & tokens
+    let userDefaults = NSUserDefaults.standardUserDefaults()
+    
     private let baseURL = "https://api.medium.com/v1"
     private var oauthswift: OAuth2Swift!
     private var credential: OAuthSwiftCredential!
-    private var mediumToken: String?
     private var credentialsJSON: JSON!
-    private var userID: String?
-    var isAuthorized: Bool = false
     
-    func doOAuthMedium() {
+    // Completion handler returns state: success/failure and user's medium token or error string
+    func doOAuthMedium(completionHandler: (String, String) -> Void) {
         
         // Insert your app credentials here
         let clientID = ""
@@ -71,138 +72,152 @@ class MediumSDKManager: NSObject {
             credential, response, parameters in
             
             self.credential = credential
-            self.isAuthorized = true
-            self.mediumToken = self.credential.oauth_token
             
             print("Token \(self.credential.oauth_token)")
             print("Refresh token \(self.credential.oauth_refresh_token)")
             
-            self.ownCredentialsRequestWithCompletion() { response in
-                if response != "error" {
-                    print("Got credentials")
-                    print("Own credentials JSON: \(self.credentialsJSON)")
-                    print("User ID: \(self.userID)" )
+            self.userDefaults.setBool(true, forKey: "mediumIsAuthorized")
+            self.userDefaults.setObject(self.credential.oauth_token, forKey: "mediumToken")
+            self.userDefaults.setObject(self.credential.oauth_refresh_token, forKey: "mediumRefreshToken")
+            
+            self.ownCredentialsRequest() { state, response in
+                if state != "error" {
+                    completionHandler("success", self.userDefaults.objectForKey("mediumToken")! as! String)
                 } else {
-                    print("Couldn't handle your request")
+                    let errorString = "Logged in but couldn't fetch your user details"
+                    completionHandler("error", errorString)
                 }
             }
             
             }, failure: { error in
-                print(error.localizedDescription, terminator: "")
+                self.userDefaults.setBool(false, forKey: "mediumIsAuthorized")
+                let errorString = "Login failed"
+                completionHandler("error", errorString)
+//                print(error.localizedDescription, terminator: "")
         })
         
     }
     
-    func checkCred() {
+    // Completion handler returns state: success/failure and user's medium token or error string
+    func checkCred(completionHandler: (String, String) -> Void) {
         
-        if isAuthorized {
-            print("Authorized! Token: \(self.mediumToken!)")
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            let response = self.userDefaults.objectForKey("mediumToken")! as! String
+            completionHandler("success", response)
         } else {
-            print("Not authorized on Medium")
+            let response = "Not authorized on Medium"
+            completionHandler("error", response)
         }
     }
     
-    func ownCredentialsRequest() {
+    // Completion handler returns state: success/failure and user's medium token or error string
+    func getUserID(completionHandler: (String, String) -> Void) {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            let response = userDefaults.objectForKey("mediumUserID")! as! String
+            completionHandler("success", response)
+        } else {
+            let response = "Not authorized on Medium"
+            completionHandler("error", response)
+        }
+    }
+    
+    func getToken(completionHandler: (String, String) -> Void) {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            let response = userDefaults.objectForKey("mediumToken")! as! String
+            completionHandler("success", response)
+        } else {
+            let response = "Not authorized on Medium"
+            completionHandler("error", response)
+        }
+    }
+    
+    func signOutMedium(completionHandler: (String, String) -> Void) {
         
-        isAuthorized = true
-        
-        if isAuthorized {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            self.userDefaults.setBool(false, forKey: "mediumIsAuthorized")
+            self.userDefaults.setObject(nil, forKey: "mediumToken")
+            self.userDefaults.setObject(nil, forKey: "mediumRefreshToken")
             
-            ownCredentialsRequestWithCompletion() { response in
-                if response != "error" {
-                    print("Got credentials")
-                    print("Own credentials JSON: \(self.credentialsJSON)")
-                    print("User ID: \(self.userID)" )
-                } else {
-                    print("Couldn't handle your request")
-                }
-            }
+            let response = "Signed out"
+            completionHandler("success", response)
         } else {
-            print("Not authorized on Medium")
+            let response = "Already signed out"
+            completionHandler("error", response)
         }
     }
     
-    private func ownCredentialsRequestWithCompletion(completionHandler: String -> Void) {
+    func ownCredentialsRequest(completionHandler: (String, String) -> Void) {
         
-        let token = self.mediumToken!
-        let url = baseURL + "/me"
-        let headers = [
-            "Authorization": "Bearer \(token)",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Accept-Charset": "utf-8"
-        ]
-        
-        Alamofire.request(.GET, url, headers: headers)
-            .responseJSON { response in
-                print(response)  // print original HTTP response
-                
-                if let value: AnyObject = response.result.value {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            
+            let token = userDefaults.objectForKey("mediumToken")!
+            let url = baseURL + "/me"
+            let headers = [
+                "Authorization": "Bearer \(token)",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Accept-Charset": "utf-8"
+            ]
+            
+            Alamofire.request(.GET, url, headers: headers)
+                .responseJSON { response in
                     
-                    let responseJSON = JSON(value)
-                    let credentialsJSON = responseJSON["data"]
-                    
-                    if credentialsJSON != "null" {
-                        self.userID = responseJSON["data"]["id"].string
-                        self.credentialsJSON = credentialsJSON
-                        if self.userID != nil {
-                            completionHandler(self.userID!)
-                        } else {
-                            completionHandler("error")
+                    if let value: AnyObject = response.result.value {
+                        
+                        let responseJSON = JSON(value)
+                        let credentialsJSON = responseJSON["data"]
+                        
+                        if credentialsJSON != "null" {
+                            let userID = responseJSON["data"]["id"].string
+                            self.credentialsJSON = credentialsJSON
+                            if userID != nil {
+                                self.userDefaults.setObject(userID, forKey: "mediumUserID")
+                                completionHandler("success", self.userDefaults.objectForKey("mediumUserID")! as! String)
+                            } else {
+                                completionHandler("error", "Couldn't fetch your User ID")
+                            }
                         }
-                    }
-                } else {
-                    completionHandler("error")
-                }
-        }
-    }
-    
-    
-    func userPublicationsListRequest() {
-        
-        if isAuthorized {
-            if self.userID != nil {
-                publicationsListRequestWithUserID()
-            } else {
-                ownCredentialsRequestWithCompletion() { response in
-                    if response != "error" {
-                        self.publicationsListRequestWithUserID()
                     } else {
-                        print("Couldn't get user ID")
+                        completionHandler("error", "Connection error")
                     }
-                }
             }
-            
         } else {
-            print("Not authorized on Medium")
+            let errorString = "Not authorized on Medium"
+            completionHandler("error", errorString)
         }
     }
     
-    private func publicationsListRequestWithUserID() {
+    func userPublicationsListRequest(completionHandler: (String, String) -> Void) {
         
-        let token = self.mediumToken!
-        let url = baseURL + "/users/" + self.userID! + "/publications"
-        let headers = [
-            "Authorization": "Bearer \(token)",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Accept-Charset": "utf-8"
-        ]
-        
-        Alamofire.request(.GET, url, headers: headers)
-            //            .responseJSON { response in
-            //                print(response)  // original URL request
-            //        }
-            .responseString { response in
-                print(response)
-        }
-    }
-    
-    func getListOfContributors(publicationId: String) {
-        
-        if isAuthorized {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
             
-            let token = self.mediumToken!
+            let token = userDefaults.objectForKey("mediumToken")!
+            let userID = userDefaults.objectForKey("mediumUserID")! as! String
+            let url = baseURL + "/users/" + userID + "/publications"
+            let headers = [
+                "Authorization": "Bearer \(token)",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Accept-Charset": "utf-8"
+            ]
+            
+            Alamofire.request(.GET, url, headers: headers)
+                .responseString { response in
+                    print(response)
+                    let responseString = "Request successful"
+                    completionHandler("success", responseString)
+            }
+        } else {
+            let errorString = "Not authorized on Medium"
+            completionHandler("error", errorString)
+        }
+    }
+    
+    func getListOfContributors(publicationId: String, completionHandler: (String, String) -> Void) {
+        
+        if userDefaults.boolForKey("mediumIsAuthorized") {
+            
+            let token = userDefaults.objectForKey("mediumToken")!
             let url = baseURL + "/publications/" + publicationId + "/contributors"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -214,18 +229,22 @@ class MediumSDKManager: NSObject {
             Alamofire.request(.GET, url, headers: headers)
                 .responseJSON { response in
                     print(response)  // original URL request
+                    let responseString = "Request successful"
+                    completionHandler("success", responseString)
             }
         } else {
-            print("Not authorized on Medium")
+            let errorString = "Not authorized on Medium"
+            completionHandler("error", errorString)
         }
     }
     
-    func createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil) {
+    func createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
         
-        if isAuthorized {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
             
-            let token = self.mediumToken!
-            let url = baseURL + "/users/" + self.userID! + "/posts"
+            let token = userDefaults.objectForKey("mediumToken")!
+            let userID = self.userDefaults.objectForKey("mediumUserID")! as! String
+            let url = baseURL + "/users/" + userID + "/posts"
             let headers = [
                 "Authorization": "Bearer \(token)",
                 "Content-Type": "application/json",
@@ -254,18 +273,21 @@ class MediumSDKManager: NSObject {
             Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
                 .responseString { response in
                     print(response)
+                    let responseString = "Request successful"
+                    completionHandler("success", responseString)
             }
         } else {
-            print("Not authorized on Medium")
+            let errorString = "Not authorized on Medium"
+            completionHandler("error", errorString)
         }
         
     }
     
-    func createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil) {
+    func createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
         
-        if isAuthorized {
+        if userDefaults.boolForKey("mediumIsAuthorized") {
             
-            let token = self.mediumToken!
+            let token = userDefaults.objectForKey("mediumToken")!
             let url = baseURL + "/publications/" + rootPublication + "/posts"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -295,10 +317,13 @@ class MediumSDKManager: NSObject {
             Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
                 .responseString { response in
                     print(response)
+                    let responseString = "Request successful"
+                    completionHandler("success", responseString)
             }
             
         } else {
-            print("Not authorized on Medium")
+            let errorString = "Not authorized on Medium"
+            completionHandler("error", errorString)
         }
     }
 
