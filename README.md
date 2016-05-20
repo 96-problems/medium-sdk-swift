@@ -1,10 +1,15 @@
 Medium SDK - Swift
 ===============
 
-## Usage
+A library to allow access to Medium SDK to any Swift iOS application.
 
-Right click on your Info.plist file, choose Open As - Source code and add these lines :
+## Install
 
+Include `MediumSDKManager.swift` file into your project and run `pod install` in the directory to load dependencies.
+
+In the project right click on your Info.plist file, choose "Open As" - "Source code" and add these lines :
+
+```
 <key>CFBundleURLTypes</key>
     <array>
         <dict>
@@ -16,14 +21,23 @@ Right click on your Info.plist file, choose Open As - Source code and add these 
             </array>
         </dict>
     </array>
+```
 
-Right before the </dict> tag.
+right before the </dict> tag.
 
 Handle the callback in App Delegate:
 
+```
 func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         if (url.host == "mediumswift-callback") {
             OAuthSwift.handleOpenURL(url)
         }
         return true
     }
+```
+
+And you are all set!
+
+## Usage
+
+Here be instructions
