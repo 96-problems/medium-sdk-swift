@@ -14,7 +14,6 @@
 		A222A2D01CD748B100C3B203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222A2CF1CD748B100C3B203 /* AppDelegate.swift */; };
 		A222A2D21CD748B100C3B203 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222A2D11CD748B100C3B203 /* ViewController.swift */; };
 		A222A2D51CD748B100C3B203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A222A2D31CD748B100C3B203 /* Main.storyboard */; };
-		A222A2D81CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A222A2D61CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodeld */; };
 		A222A2DA1CD748B100C3B203 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A222A2D91CD748B100C3B203 /* Assets.xcassets */; };
 		A222A2DD1CD748B100C3B203 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A222A2DB1CD748B100C3B203 /* LaunchScreen.storyboard */; };
 		A222A2E81CD748B100C3B203 /* medium_sdk_swift_sampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222A2E71CD748B100C3B203 /* medium_sdk_swift_sampleTests.swift */; };
@@ -52,7 +51,6 @@
 		A222A2CF1CD748B100C3B203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A222A2D11CD748B100C3B203 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A222A2D41CD748B100C3B203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A222A2D71CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = medium_sdk_swift_sample.xcdatamodel; sourceTree = "<group>"; };
 		A222A2D91CD748B100C3B203 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A222A2DC1CD748B100C3B203 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A222A2DE1CD748B100C3B203 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 				A222A2D91CD748B100C3B203 /* Assets.xcassets */,
 				A222A2DB1CD748B100C3B203 /* LaunchScreen.storyboard */,
 				A222A2DE1CD748B100C3B203 /* Info.plist */,
-				A222A2D61CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodeld */,
 			);
 			path = "medium-sdk-swift-sample";
 			sourceTree = "<group>";
@@ -434,7 +431,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A222A2D21CD748B100C3B203 /* ViewController.swift in Sources */,
-				A222A2D81CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodeld in Sources */,
 				A222A2D01CD748B100C3B203 /* AppDelegate.swift in Sources */,
 				A212F7B91CEF2D0E00D63BC6 /* MediumSDKManager.swift in Sources */,
 			);
@@ -688,19 +684,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		A222A2D61CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A222A2D71CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodel */,
-			);
-			currentVersion = A222A2D71CD748B100C3B203 /* medium_sdk_swift_sample.xcdatamodel */;
-			path = medium_sdk_swift_sample.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = A222A2C41CD748B100C3B203 /* Project object */;
 }

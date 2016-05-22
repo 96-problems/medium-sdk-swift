@@ -45,7 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n Your Medium token is: \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 1:
@@ -53,7 +53,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n Your Medium token is: \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 2:
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n  Your user ID is: \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 3:
@@ -69,7 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 4:
@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 5:
@@ -96,7 +96,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 6:
@@ -115,7 +115,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success! \n\n \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         case 7:
@@ -123,7 +123,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if state == "success" {
                     self.showAlert("Success: \n\n \(message)")
                 } else {
-                    self.showAlert("Error: \n \(message)")
+                    self.showAlert("Error: \n\n \(message)")
                 }
             }
         default:
