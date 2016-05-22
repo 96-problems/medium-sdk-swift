@@ -98,7 +98,7 @@ class MediumSDKManager: NSObject {
         
     }
     
-    // Completion handler returns state: success/failure and user's medium token or error string
+    // Completion handler returns state: success/failure and medium token string if present
     func checkCred(completionHandler: (String, String) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
@@ -110,7 +110,7 @@ class MediumSDKManager: NSObject {
         }
     }
     
-    // Completion handler returns state: success/failure and user's medium token or error string
+    // Completion handler returns state: success/failure and user ID string if present
     func getUserID(completionHandler: (String, String) -> Void) {
         if userDefaults.boolForKey("mediumIsAuthorized") {
             let response = userDefaults.objectForKey("mediumUserID")! as! String
@@ -121,6 +121,7 @@ class MediumSDKManager: NSObject {
         }
     }
     
+    // Completion handler returns state: success/failure and medium token string if present
     func getToken(completionHandler: (String, String) -> Void) {
         if userDefaults.boolForKey("mediumIsAuthorized") {
             let response = userDefaults.objectForKey("mediumToken")! as! String
@@ -131,6 +132,7 @@ class MediumSDKManager: NSObject {
         }
     }
     
+    // Completion handler returns state: success/failure, and explanation string
     func signOutMedium(completionHandler: (String, String) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
@@ -146,6 +148,7 @@ class MediumSDKManager: NSObject {
         }
     }
     
+    // Completion handler returns state: success/failure, and user ID as a string if present
     func ownCredentialsRequest(completionHandler: (String, String) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
@@ -187,7 +190,8 @@ class MediumSDKManager: NSObject {
         }
     }
     
-    func userPublicationsListRequest(completionHandler: (String, String) -> Void) {
+    // Completion handler returns state: success/failure, number of users publications as string and publications JSON if present
+    func userPublicationsListRequest(completionHandler: (String, String, JSON) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
             
@@ -202,18 +206,45 @@ class MediumSDKManager: NSObject {
             ]
             
             Alamofire.request(.GET, url, headers: headers)
-                .responseString { response in
-                    print(response)
-                    let responseString = "Request successful"
-                    completionHandler("success", responseString)
-            }
+                .responseJSON { response in
+//                    print(response)
+                    
+                    if let value: AnyObject = response.result.value {
+                        
+                        let responseJSON = JSON(value)
+                        let publicationsJSON = responseJSON["data"]
+                        
+                        if publicationsJSON != "null" {
+                            
+                            let numberOfPublications = publicationsJSON.count
+                            
+//                            // These properties to be used in data manager implementation
+//                            for publicationNumber in 0 ..< numberOfPublications {
+//                                
+//                                let currentJSON = publicationsJSON[publicationNumber]
+//                                let publicationID = currentJSON["id"].string!
+//                                let carpark = currentJSON["description"].string!
+//                                let currency = currentJSON["url"].string!
+//                                let end_time = currentJSON["imageUrl"].string!
+//                                
+//                            }
+                            completionHandler("success", "\(numberOfPublications)", publicationsJSON)
+                            
+                        } else {
+                            completionHandler("error", "Empty response", nil)
+                        }
+                    } else {
+                        completionHandler("error", "Connection error", nil)
+                    }
+                }
         } else {
             let errorString = "Not authorized on Medium"
-            completionHandler("error", errorString)
+            completionHandler("error", errorString, nil)
         }
     }
     
-    func getListOfContributors(publicationId: String, completionHandler: (String, String) -> Void) {
+    // Completion handler returns state: success/failure, number of users publications as string and publications JSON if present
+    func getListOfContributors(publicationId: String, completionHandler: (String, String, JSON) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
             
@@ -228,16 +259,42 @@ class MediumSDKManager: NSObject {
             
             Alamofire.request(.GET, url, headers: headers)
                 .responseJSON { response in
-                    print(response)  // original URL request
-                    let responseString = "Request successful"
-                    completionHandler("success", responseString)
+//                    print(response)
+                    
+                    if let value: AnyObject = response.result.value {
+                        
+                        let responseJSON = JSON(value)
+                        let contributorsJSON = responseJSON["data"]
+                        
+                        if contributorsJSON != "null" {
+                            
+                            let numberOfContributors = contributorsJSON.count
+                            
+                            //                            for publicationNumber in 0 ..< numberOfPublications {
+                            //
+                            //                                let currentJSON = publicationsJSON[publicationNumber]
+                            //                                let publicationID = currentJSON["id"].string!
+                            //                                let carpark = currentJSON["description"].string!
+                            //                                let currency = currentJSON["url"].string!
+                            //                                let end_time = currentJSON["imageUrl"].string!
+                            //
+                            //                            }
+                            completionHandler("success", "\(numberOfContributors)", contributorsJSON)
+                            
+                        } else {
+                            completionHandler("error", "Empty response", nil)
+                        }
+                    } else {
+                        completionHandler("error", "Connection error", nil)
+                    }
             }
         } else {
             let errorString = "Not authorized on Medium"
-            completionHandler("error", errorString)
+            completionHandler("error", errorString, nil)
         }
     }
     
+    // Completion handler returns state: success/failure, and error message if present
     func createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
@@ -271,10 +328,28 @@ class MediumSDKManager: NSObject {
             }
             
             Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
-                .responseString { response in
-                    print(response)
-                    let responseString = "Request successful"
-                    completionHandler("success", responseString)
+                .responseJSON { response in
+//                    print(response)
+                    
+                    if let value: AnyObject = response.result.value {
+                        
+                        let responseJSON = JSON(value)
+                        
+                        if responseJSON["errors"] != nil {
+                            if let responseMessage = responseJSON["errors"][0]["message"].string {
+                                completionHandler("error", responseMessage)
+                            } else {
+                                completionHandler("error", "Some error")
+                            }
+                        } else if responseJSON["data"] != nil {
+                            completionHandler("success", "Publication created")
+                        } else {
+                            completionHandler("error", "Connection error")
+                        }
+                    
+                    } else {
+                        completionHandler("error", "Connection error")
+                    }
             }
         } else {
             let errorString = "Not authorized on Medium"
@@ -283,6 +358,7 @@ class MediumSDKManager: NSObject {
         
     }
     
+    // Completion handler returns state: success/failure, and error message if present
     func createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
         
         if userDefaults.boolForKey("mediumIsAuthorized") {
@@ -315,12 +391,29 @@ class MediumSDKManager: NSObject {
             }
             
             Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
-                .responseString { response in
-                    print(response)
-                    let responseString = "Request successful"
-                    completionHandler("success", responseString)
+                .responseJSON { response in
+//                    print(response)
+                    
+                    if let value: AnyObject = response.result.value {
+                        
+                        let responseJSON = JSON(value)
+                        
+                        if responseJSON["errors"] != nil {
+                            if let responseMessage = responseJSON["errors"][0]["message"].string {
+                                completionHandler("error", responseMessage)
+                            } else {
+                                completionHandler("error", "Some error")
+                            }
+                        } else if responseJSON["data"] != nil {
+                            completionHandler("success", "Publication created")
+                        } else {
+                            completionHandler("error", "Connection error")
+                        }
+                        
+                    } else {
+                        completionHandler("error", "Connection error")
+                    }
             }
-            
         } else {
             let errorString = "Not authorized on Medium"
             completionHandler("error", errorString)

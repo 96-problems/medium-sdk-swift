@@ -20,9 +20,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var buttons : [String] = [
         "Authorize on Medium.com",
         "Check token",
-        "Own profile info",
-        "List of own publications",
-        "List of publications's contributors",
+        "Own profile info request",
+        "Own publications request",
+        "Publications's contributors request",
         "Create a post",
         "Create a post under publication",
         "Sign out"
@@ -65,9 +65,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         case 3:
-            mediumSession.userPublicationsListRequest() { state, message in
+            mediumSession.userPublicationsListRequest() { state, message, _ in
                 if state == "success" {
-                    self.showAlert("Success! \n\n \(message)")
+                    self.showAlert("Success! \n\n Number of own publications: \n\n \(message)")
                 } else {
                     self.showAlert("Error: \n\n \(message)")
                 }
@@ -75,9 +75,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 4:
             // Sample postID, feel free to use any other post ID of yours to test this function
             let postID = "b6bdc04b3925"
-            mediumSession.getListOfContributors(postID) { state, message in
+            mediumSession.getListOfContributors(postID) { state, message, _ in
                 if state == "success" {
-                    self.showAlert("Success! \n\n \(message)")
+                    self.showAlert("Success! \n\n Number of contributors: \n\n \(message)")
                 } else {
                     self.showAlert("Error: \n\n \(message)")
                 }
