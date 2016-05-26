@@ -130,7 +130,7 @@ We would love for you to contribute to **Medium SDK - Swift**, check the ``LICEN
 ## Meta
 
 Original author:
-Alexander Telegin – [@drinkius](https://twitter.com/drinkius) – telegin.alexander@gmail.com
+Alexander Telegin – [@drinkius](https://github.com/drinkius) – telegin.alexander@gmail.com
 
 Created as a part of development internship, distributed under the MIT license. See ``LICENSE`` for more information.
 
