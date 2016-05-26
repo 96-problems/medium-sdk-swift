@@ -128,7 +128,7 @@ Alexander Telegin – [@drinkius](https://twitter.com/drinkius) – telegin.alex
 
 Created as a part of development internship, distributed under the MIT license. See ``LICENSE`` for more information.
 
-https://github.com/drinkius/medium-sdk-swift
+https://github.com/96-problems/medium-sdk-swift
 
 [swift-image]:https://img.shields.io/badge/swift-2.2-orange.svg
 [swift-url]: https://swift.org/
