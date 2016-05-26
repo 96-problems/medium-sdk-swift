@@ -58,7 +58,59 @@ And you are all set!
 
 ## Usage
 
-Here be instructions
+List of methods of the ``MediumSDKManager`` class:
+
+* **Authorize**, completion handler returns state: success/failure and user's medium token or error string: 
+```
+doOAuthMedium(completionHandler: (String, String) -> Void)
+```
+
+* **Check login credentials**, completion handler returns state: success/failure and medium token string if present: 
+```
+checkCred(completionHandler: (String, String) -> Void)
+```
+
+* **Get current user ID**, completion handler returns state: success/failure and user ID string if present: 
+```
+getUserID(completionHandler: (String, String) -> Void)
+```
+
+* **Get current Medium token**, completion handler returns state: success/failure and medium token string if present:
+```
+getToken(completionHandler: (String, String) -> Void)
+```
+
+* **Sign out**, completion handler returns state: success/failure, and explanation string: 
+```
+signOutMedium(completionHandler: (String, String) -> Void)
+```
+
+* **Get current user's credentials**, completion handler returns state: success/failure, and user ID as a string if present: 
+```
+ownCredentialsRequest(completionHandler: (String, String) -> Void)
+```
+
+* **Get list of current user's publications**, completion handler returns state: success/failure, number of users publications as string and publications JSON if present: 
+```
+userPublicationsListRequest(completionHandler: (String, String, JSON) -> Void)
+```
+
+* **Get list of a publication's contributors**, completion handler returns state: success/failure, number of users publications as string and publications JSON if present: 
+```
+getListOfContributors(publicationId: String, completionHandler: (String, String, JSON) -> Void)
+```
+
+* **Create new post**, completion handler returns state: success/failure, and error message if present: 
+```
+createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
+```
+
+* **Create a post under existing publication**, completion handler returns state: success/failure, and error message if present: 
+```
+createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
+```
+
+Note that publish status and licence fields are coded as enums with all the possible states of these parameters, when creating a publication just use the proper values.
 
 ## Release History
 
