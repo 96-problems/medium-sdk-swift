@@ -23,7 +23,15 @@ Medium SDK - Swift
 
 #### Manually
 
-Include `MediumSDKManager.swift` file into your project and run `pod install` in the directory to load dependencies.
+Include `MediumSDKManager.swift` file into your project, add `OAuthSwift`, `SwiftyJSON` and `Alamofire` pods to your podfile:
+
+```
+  pod 'OAuthSwift', '~> 0.5.2'
+  pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+  pod 'Alamofire', '~> 3.4'
+```
+
+and run `pod install` in the directory to load dependencies.
 
 In the project right click on your Info.plist file, choose "Open As" - "Source code" and add these lines :
 
