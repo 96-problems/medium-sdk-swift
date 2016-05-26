@@ -58,6 +58,12 @@ And you are all set!
 
 ## Usage
 
+``MediumSDKManager`` class is designed as a singleton, you can access all it's methods by calling a shared instance:
+
+```
+let mediumSession = MediumSDKManager.sharedInstance
+```
+
 List of methods of the ``MediumSDKManager`` class:
 
 * **Authorize**, completion handler returns state: success/failure and user's medium token or error string: 
