@@ -62,7 +62,9 @@ func application(app: UIApplication, openURL url: NSURL, options: [String : AnyO
     }
 ```
 
-And you are all set!
+Note that the redirect is done via a free Heroku app and it's highly recommended to setup your own redirect service by cloning and running [this repo](https://github.com/drinkius/mediumswift.herokuapp.com) (courtesy of the original [oauthswift.herokuapp.com repo](https://github.com/dongri/oauthswift.herokuapp.com)). Change all the `mediumswift` strings in the repo to the name of your app and make related changes in `Info.plist` and `App Delegate` files. The deploy is easy with Heroku - just link your GitHub repo and the app is built automatically.
+
+You are all set!
 
 ## Usage
 
