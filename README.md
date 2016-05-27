@@ -1,6 +1,6 @@
 Medium SDK - Swift
 ===============
-> A library to allow access to Medium SDK to any Swift iOS application.
+> A library to allow access to Medium API for any Swift iOS application.
 
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url]
@@ -62,7 +62,7 @@ func application(app: UIApplication, openURL url: NSURL, options: [String : AnyO
     }
 ```
 
-Note that the redirect is done via a free Heroku app and it's highly recommended to setup your own redirect service by cloning and running [this repo](https://github.com/drinkius/mediumswift.herokuapp.com) (courtesy of the original [oauthswift.herokuapp.com repo](https://github.com/dongri/oauthswift.herokuapp.com)). Change all the `mediumswift` strings in the repo to the name of your app and make related changes in `Info.plist` and `App Delegate` files. The deploy is easy with Heroku - just link your GitHub repo and the app is built automatically.
+Note that the redirect is done via a free Heroku app and it's highly recommended to setup your own redirect service by cloning and running [this repo](https://github.com/drinkius/mediumswift.herokuapp.com) (courtesy of the original [oauthswift.herokuapp.com](https://github.com/dongri/oauthswift.herokuapp.com) repo). Change all the `mediumswift` strings in the repo to the name of your app and make related changes in `Info.plist` and `App Delegate` files. The deployment with Heroku is easy - just link your GitHub repo and the app is built automatically.
 
 You are all set!
 
@@ -81,47 +81,47 @@ List of methods of the ``MediumSDKManager`` class:
 doOAuthMedium(completionHandler: (String, String) -> Void)
 ```
 
-* **Check login credentials**, completion handler returns state: success/failure and medium token string if present: 
+* **Check login credentials**, completion handler returns state: success/failure and medium token or error string: 
 ```
 checkCred(completionHandler: (String, String) -> Void)
 ```
 
-* **Get current user ID**, completion handler returns state: success/failure and user ID string if present: 
+* **Get current user ID**, completion handler returns state: success/failure and user ID or error string: 
 ```
 getUserID(completionHandler: (String, String) -> Void)
 ```
 
-* **Get current Medium token**, completion handler returns state: success/failure and medium token string if present:
+* **Get current Medium token**, completion handler returns state: success/failure and medium token or error string:
 ```
 getToken(completionHandler: (String, String) -> Void)
 ```
 
-* **Sign out**, completion handler returns state: success/failure, and explanation string: 
+* **Sign out**, completion handler returns state: success/failure, and message or error string: 
 ```
 signOutMedium(completionHandler: (String, String) -> Void)
 ```
 
-* **Get current user's credentials**, completion handler returns state: success/failure, and user ID as a string if present: 
+* **Get current user's credentials**, completion handler returns state: success/failure, and user ID as or error string: 
 ```
 ownCredentialsRequest(completionHandler: (String, String) -> Void)
 ```
 
-* **Get list of current user's publications**, completion handler returns state: success/failure, number of users publications as string and publications JSON if present: 
+* **Get list of current user's publications**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present: 
 ```
 userPublicationsListRequest(completionHandler: (String, String, JSON) -> Void)
 ```
 
-* **Get list of a publication's contributors**, completion handler returns state: success/failure, number of users publications as string and publications JSON if present: 
+* **Get list of a publication's contributors**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present: 
 ```
 getListOfContributors(publicationId: String, completionHandler: (String, String, JSON) -> Void)
 ```
 
-* **Create new post**, completion handler returns state: success/failure, and error message if present: 
+* **Create new post**, completion handler returns state: success/failure, and message or error string: 
 ```
 createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
 ```
 
-* **Create a post under existing publication**, completion handler returns state: success/failure, and error message if present: 
+* **Create a post under existing publication**, completion handler returns state: success/failure, and message or error string: 
 ```
 createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
 ```
