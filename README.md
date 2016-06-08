@@ -4,7 +4,7 @@ Medium SDK - Swift
 
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url]
-[![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
+[![Platform][platform-image]][platform-url]
 
 ## Features
 
@@ -150,3 +150,5 @@ https://github.com/96-problems/medium-sdk-swift
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
 [license-url]: LICENSE
+[platform-image]: https://img.shields.io/badge/platform-ios-green.svg
+[platform-url]: http://www.apple.com
