@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name        = 'medium-sdk-swift'
+  s.name        = 'MediumSDKSwift'
   s.version     = '0.0.1'
   s.summary     = 'A swift SDK for Medium\'s OAuth2 API https://medium.com'
   s.homepage    = 'https://github.com/96-problems/medium-sdk-swift'
