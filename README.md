@@ -13,22 +13,15 @@ Medium SDK - Swift
 - [x] Supported scopes: basicProfile, listPublications, publishPost
 - [x] Implemented all the related requests from the [Medium API docs](https://github.com/Medium/medium-api-docs)
 
-## Requirements
+## Compatibility
 
 - iOS 8.0+
-- Xcode 7.3
-- OAuthSwift, SwiftyJSON, Alamofire pods
+- osx 10.10
 
 ## Installation
 
-#### Manually
-
-Include `MediumSDKManager.swift` file into your project, add `OAuthSwift`, `SwiftyJSON` and `Alamofire` pods to your podfile:
-
 ```
-  pod 'OAuthSwift', '~> 0.5.2'
-  pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
-  pod 'Alamofire', '~> 3.4'
+  pod 'MediumSDKManager', '~> 0.0.1'
 ```
 
 and run `pod install` in the directory to load dependencies.
