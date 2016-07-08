@@ -6,5 +6,5 @@ target 'medium-sdk-swift-sample' do
   use_frameworks!
 
   # Pods for medium-sdk-swift-sample
-  pod 'MediumSDKSwift', '~> 0.0.1', :git => 'https://github.com/96-problems/medium-sdk-swift.git'
+  pod 'MediumSDKSwift', :git => 'https://github.com/96-problems/medium-sdk-swift.git'
 end
