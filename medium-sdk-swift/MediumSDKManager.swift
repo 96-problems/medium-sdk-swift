@@ -6,7 +6,6 @@
 //
 //
 
-import UIKit
 import OAuthSwift
 import SwiftyJSON
 import Alamofire
