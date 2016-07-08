@@ -76,17 +76,17 @@ let mediumSession = MediumSDKManager.sharedInstance
 
 List of methods of the ``MediumSDKManager`` class:
 
-* **Authorize**, completion handler returns state: success/failure and user's medium token or error string: 
+* **Authorize**, completion handler returns state: success/failure and user's medium token or error string:
 ```
 doOAuthMedium(completionHandler: (String, String) -> Void)
 ```
 
-* **Check login credentials**, completion handler returns state: success/failure and medium token or error string: 
+* **Check login credentials**, completion handler returns state: success/failure and medium token or error string:
 ```
 checkCred(completionHandler: (String, String) -> Void)
 ```
 
-* **Get current user ID**, completion handler returns state: success/failure and user ID or error string: 
+* **Get current user ID**, completion handler returns state: success/failure and user ID or error string:
 ```
 getUserID(completionHandler: (String, String) -> Void)
 ```
@@ -96,32 +96,32 @@ getUserID(completionHandler: (String, String) -> Void)
 getToken(completionHandler: (String, String) -> Void)
 ```
 
-* **Sign out**, completion handler returns state: success/failure, and message or error string: 
+* **Sign out**, completion handler returns state: success/failure, and message or error string:
 ```
 signOutMedium(completionHandler: (String, String) -> Void)
 ```
 
-* **Get current user's credentials**, completion handler returns state: success/failure, and user ID as or error string: 
+* **Get current user's credentials**, completion handler returns state: success/failure, and user ID as or error string:
 ```
 ownCredentialsRequest(completionHandler: (String, String) -> Void)
 ```
 
-* **Get list of current user's publications**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present: 
+* **Get list of current user's publications**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present:
 ```
 userPublicationsListRequest(completionHandler: (String, String, JSON) -> Void)
 ```
 
-* **Get list of a publication's contributors**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present: 
+* **Get list of a publication's contributors**, completion handler returns state: success/failure, number of users publications or error string and publications JSON if present:
 ```
 getListOfContributors(publicationId: String, completionHandler: (String, String, JSON) -> Void)
 ```
 
-* **Create new post**, completion handler returns state: success/failure, and message or error string: 
+* **Create new post**, completion handler returns state: success/failure, and message or error string:
 ```
 createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
 ```
 
-* **Create a post under existing publication**, completion handler returns state: success/failure, and message or error string: 
+* **Create a post under existing publication**, completion handler returns state: success/failure, and message or error string:
 ```
 createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void)
 ```
@@ -130,7 +130,7 @@ Note that publish status and licence fields are coded as enums with all the poss
 
 ## Release History
 
-* 0.1.0
+* 0.0.1
     * The first release, current version
 
 ## Contribute
