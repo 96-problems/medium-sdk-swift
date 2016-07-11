@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		512F602EB0C6C74A277DD2FD /* Pods_medium_sdk_swift_sample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CFD736C9108E16121FCA469 /* Pods_medium_sdk_swift_sample.framework */; };
-		A212F7B91CEF2D0E00D63BC6 /* MediumSDKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A212F7B81CEF2D0E00D63BC6 /* MediumSDKManager.swift */; };
 		A222A2D01CD748B100C3B203 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222A2CF1CD748B100C3B203 /* AppDelegate.swift */; };
 		A222A2D21CD748B100C3B203 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222A2D11CD748B100C3B203 /* ViewController.swift */; };
 		A222A2D51CD748B100C3B203 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A222A2D31CD748B100C3B203 /* Main.storyboard */; };
@@ -41,7 +40,6 @@
 		1D4463CD5684DDE9E793989D /* Pods_medium_sdk_swift_sampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_medium_sdk_swift_sampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CFD736C9108E16121FCA469 /* Pods_medium_sdk_swift_sample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_medium_sdk_swift_sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B8ED338D8088627BB1C1B1 /* Pods-medium-sdk-swift-sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-medium-sdk-swift-sample.release.xcconfig"; path = "Pods/Target Support Files/Pods-medium-sdk-swift-sample/Pods-medium-sdk-swift-sample.release.xcconfig"; sourceTree = "<group>"; };
-		A212F7B81CEF2D0E00D63BC6 /* MediumSDKManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediumSDKManager.swift; path = "../../medium-sdk-swift/MediumSDKManager.swift"; sourceTree = "<group>"; };
 		A222A2CC1CD748B100C3B203 /* medium-sdk-swift-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "medium-sdk-swift-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A222A2CF1CD748B100C3B203 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A222A2D11CD748B100C3B203 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				A222A2CF1CD748B100C3B203 /* AppDelegate.swift */,
-				A212F7B81CEF2D0E00D63BC6 /* MediumSDKManager.swift */,
 				A222A2D11CD748B100C3B203 /* ViewController.swift */,
 				A222A2D31CD748B100C3B203 /* Main.storyboard */,
 				A222A2D91CD748B100C3B203 /* Assets.xcassets */,
@@ -340,7 +337,6 @@
 			files = (
 				A222A2D21CD748B100C3B203 /* ViewController.swift in Sources */,
 				A222A2D01CD748B100C3B203 /* AppDelegate.swift in Sources */,
-				A212F7B91CEF2D0E00D63BC6 /* MediumSDKManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
