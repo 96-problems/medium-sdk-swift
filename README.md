@@ -21,16 +21,18 @@ Medium SDK - Swift
 ## Installation
 
 ```
-  pod 'MediumSDKManager', '~> 0.0.1'
+  pod 'MediumSDKManager', '~> 0.0.4'
 ```
 
 and run `pod install` in the directory to load dependencies.
 
 ## Configuration
 
-Add your `CLIENT_ID` and `CLIENT_SECRET` in `Build settings ` -> `User-Define`
+Add your `MEDIUM_CLIENT_ID`, `MEDIUM_CLIENT_SECRET`, `MEDIUM_CALLBACK_URL`
+in `Build settings ` -> `User-Define`
 
-In the project right click on your Info.plist file, choose "Open As" - "Source code" and add these lines :
+In the project right click on your `Info.plist` file,
+choose "Open As" - "Source code" and add these lines :
 
 ```
 <key>CFBundleURLTypes</key>
@@ -42,6 +44,15 @@ In the project right click on your Info.plist file, choose "Open As" - "Source c
             <array>
                 <string>mediumswift</string>
             </array>
+
+            <key>MediumCallbackURL</key>
+          	<string>$(MEDIUM_CALLBACK_URL)</string>
+
+          	<key>MediumClientID</key>
+          	<string>$(MEDIUM_CLIENT_ID)</string>
+
+          	<key>MediumClientSecret</key>
+          	<string>$(MEDIUM_CLIENT_SECRET)</string>
         </dict>
     </array>
 ```
@@ -127,8 +138,15 @@ Note that publish status and licence fields are coded as enums with all the poss
 
 ## Release History
 
+* 0.0.4
+    * add User-defnie variables
+    * current version
+* 0.0.3
+    * bug fixies
+* 0.0.2
+    * update dependencies
 * 0.0.1
-    * The first release, current version
+    * The first release
 
 ## Contribute
 
