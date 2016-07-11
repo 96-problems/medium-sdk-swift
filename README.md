@@ -26,6 +26,10 @@ Medium SDK - Swift
 
 and run `pod install` in the directory to load dependencies.
 
+## Configuration
+
+Add your `CLIENT_ID` and `CLIENT_SECRET` in `Build settings ` -> `User-Define`
+
 In the project right click on your Info.plist file, choose "Open As" - "Source code" and add these lines :
 
 ```
