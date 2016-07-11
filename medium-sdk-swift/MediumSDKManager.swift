@@ -52,7 +52,7 @@ public class MediumSDKManager: NSObject {
         // API URLs
         let authorizeURL = "https://medium.com/m/oauth/authorize"
         let accessTokenUrl = baseURL + "/tokens"
-        let callbackURL = "http://mediumswift.herokuapp.com/callback/"
+        let callbackURL = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumCallbackURL") as! String
 
         // Specify the scope of public functions your app utilizes, options: basicProfile,publishPost, and listPublications. Extended scope "uploadImage" by default can't be requested by an application.
 

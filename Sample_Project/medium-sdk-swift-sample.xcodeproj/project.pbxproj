@@ -481,6 +481,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "medium-sdk-swift-sample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MEDIUM_CALLBACK_URL = "http://callbaclurl";
 				MEDIUM_CLIENT_ID = abc123;
 				MEDIUM_CLIENT_SECRET = acb123;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.96problems.medium-sdk-swift-sample";
@@ -495,6 +496,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "medium-sdk-swift-sample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MEDIUM_CALLBACK_URL = "http://callbaclurl";
 				MEDIUM_CLIENT_ID = abc123;
 				MEDIUM_CLIENT_SECRET = acb123;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.96problems.medium-sdk-swift-sample";
