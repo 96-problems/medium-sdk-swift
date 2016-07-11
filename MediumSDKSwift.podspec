@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'MediumSDKSwift'
-  s.version  = '0.0.1'
+  s.version  = '0.0.2'
   s.summary  = 'A swift SDK for Medium\'s OAuth2 API https://medium.com'
   s.homepage = 'https://github.com/96-problems/medium-sdk-swift'
   s.license  = { :type => 'MIT' }
@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
   s.source_files = 'medium-sdk-swift/*.swift'
 
   s.dependency 'OAuthSwift', '~> 0.5.2'
-  s.dependency 'SwiftyJSON', '2.3.2'
+  s.dependency 'SwiftyJSON', '2.3.3'
   s.dependency 'Alamofire', '~> 3.4'
 end
