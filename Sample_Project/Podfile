@@ -6,5 +6,5 @@ target 'medium-sdk-swift-sample' do
   use_frameworks!
 
   # Pods for medium-sdk-swift-sample
-  pod 'MediumSDKSwift', '0.0.2'
+  pod 'MediumSDKSwift', '0.0.3'
 end

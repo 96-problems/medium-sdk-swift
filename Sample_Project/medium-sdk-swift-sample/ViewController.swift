@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediumSDKSwift
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
