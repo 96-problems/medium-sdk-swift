@@ -46,8 +46,8 @@ class MediumSDKManager: NSObject {
     func doOAuthMedium(completionHandler: (String, String) -> Void) {
         
         // Insert your app credentials here
-        let clientID = ""
-        let clientSecret = ""
+        let clientID = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumClientID") as! String
+        let clientSecret = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumClientSecret") as! String
         
         // API URLs
         let authorizeURL = "https://medium.com/m/oauth/authorize"
