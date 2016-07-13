@@ -12,6 +12,7 @@ Medium SDK - Swift
 - [x] Login state saved in user defaults
 - [x] Supported scopes: basicProfile, listPublications, publishPost
 - [x] Implemented all the related requests from the [Medium API docs](https://github.com/Medium/medium-api-docs)
+- [ ] Support Safari View Controller
 
 ## Compatibility
 
