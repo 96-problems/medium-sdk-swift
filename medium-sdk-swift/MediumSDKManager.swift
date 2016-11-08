@@ -3,7 +3,7 @@
 //
 //
 //  Created by drinkius on 20/05/16.
-//
+//  Updated by @reejosamuel on 08/11/16
 //
 
 import OAuthSwift
@@ -70,7 +70,7 @@ open class MediumSDKManager: NSObject {
         oauthswift.authorize(withCallbackURL: URL(string: callbackURL)!,
            scope: scope, state: state,
           success: { credential, response, parameters in
-          
+
             self.credential = credential
 
             print("Token \(self.credential.oauthToken)")
@@ -207,7 +207,7 @@ open class MediumSDKManager: NSObject {
 
           Alamofire.request(url, method: .get ,headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                    print(response)
 
                     if let value: AnyObject = response.result.value as AnyObject? {
 
@@ -259,7 +259,7 @@ open class MediumSDKManager: NSObject {
 
             Alamofire.request(url, method: .get, headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                   print(response)
 
                     if let value: AnyObject = response.result.value as AnyObject? {
 
@@ -327,11 +327,11 @@ open class MediumSDKManager: NSObject {
                 parameters["license"] = license!.rawValue as AnyObject?
             }
 
-//            Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
-
-            Alamofire.request(url, method: .post,
+            Alamofire.request(url,
+                              method: .post,
                               parameters: parameters,
-                              encoding: JSONEncoding.default, headers: headers)
+                              encoding: JSONEncoding.default,
+                              headers: headers)
                 .responseJSON { response in
                     print(response)
 
@@ -397,7 +397,8 @@ open class MediumSDKManager: NSObject {
             Alamofire.request(url, method: .post,
                               parameters: parameters,
                               encoding: JSONEncoding.default,
-                              headers: headers).responseJSON { response in
+                              headers: headers)
+                .responseJSON { response in
                     print(response)
 
                     if let value: AnyObject = response.result.value as AnyObject? {

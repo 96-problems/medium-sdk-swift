@@ -7,9 +7,6 @@ target 'medium-sdk-swift-sample' do
 
   # Pods for medium-sdk-swift-sample
   pod 'MediumSDKSwift', :path => "../"
-  # pod 'Alamofire', '~> 4.0'
-  # pod 'SwiftyJSON'
-  # pod 'OAuthSwift'
 end
 
 post_install do |installer|
