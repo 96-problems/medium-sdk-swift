@@ -16,13 +16,13 @@ Medium SDK - Swift
 
 ## Compatibility
 
-- iOS 8.0+
+- iOS 9.0+
 - osx 10.10
 
 ## Installation
 
 ```
-  pod 'MediumSDKManager', '~> 0.0.4'
+  pod 'MediumSDKSwift'
 ```
 
 and run `pod install` in the directory to load dependencies.
@@ -139,6 +139,10 @@ Note that publish status and licence fields are coded as enums with all the poss
 
 ## Release History
 
+* 0.1.0
+    * Update syntax for Swift 3.0
+    * Drop support <= iOS 9.0
+    * Update dependencies
 * 0.0.4
     * add User-defnie variables
     * current version
@@ -157,6 +161,9 @@ We would love for you to contribute to **Medium SDK - Swift**, check the ``LICEN
 
 Original author:
 Alexander Telegin – [@drinkius](https://github.com/drinkius) – telegin.alexander@gmail.com
+
+Contributions by
+- Reejo Samuel - [@reejosamuel](https://github.com/reejosamuel)
 
 Created as a part of development internship, distributed under the MIT license. See ``LICENSE`` for more information.
 
