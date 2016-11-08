@@ -37,25 +37,26 @@ choose "Open As" - "Source code" and add these lines :
 
 ```
 <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLName</key>
-            <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>mediumswift</string>
-            </array>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>mediumswift</string>
+        </array>
+    </dict>
+</array>
 
-            <key>MediumCallbackURL</key>
-          	<string>$(MEDIUM_CALLBACK_URL)</string>
+<key>MediumCallbackURL</key>
+<string>$(MEDIUM_CALLBACK_URL)</string>
 
-          	<key>MediumClientID</key>
-          	<string>$(MEDIUM_CLIENT_ID)</string>
+<key>MediumClientID</key>
+<string>$(MEDIUM_CLIENT_ID)</string>
 
-          	<key>MediumClientSecret</key>
-          	<string>$(MEDIUM_CLIENT_SECRET)</string>
-        </dict>
-    </array>
+<key>MediumClientSecret</key>
+<string>$(MEDIUM_CLIENT_SECRET)</string>
+
 ```
 
 right before the </dict> tag.
