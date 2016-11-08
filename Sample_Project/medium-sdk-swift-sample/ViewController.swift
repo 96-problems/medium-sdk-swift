@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // Tableview setup
     
     var tableView: UITableView  =   UITableView()
-    var historySessions = []
+    var historySessions = [AnyObject]()
     var buttons : [String] = [
         "Authorize on Medium.com",
         "Check token",
@@ -29,17 +29,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "Sign out"
     ]
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return buttons.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         cell.textLabel!.text = buttons[indexPath.row]
         return cell;
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
             mediumSession.doOAuthMedium() { state, message in
@@ -112,7 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let licence = MediumLicense.publicDomain
             
             //        mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, tags: tags)
-            mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, tags: tags, canonicalUrl: canonicalUrl, publishStatus: publishStatus, license: licence) { state, message in
+            mediumSession.createPostUnderPublication(rootPublication, title: title, contentFormat: contentFormat, content: content, canonicalUrl: canonicalUrl, tags: tags, publishStatus: publishStatus, license: licence) { state, message in
                 if state == "success" {
                     self.showAlert("Success! \n\n \(message)")
                 } else {
@@ -136,19 +136,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView = UITableView(frame: UIScreen.mainScreen().bounds, style: UITableViewStyle.Plain)
+        tableView = UITableView(frame: UIScreen.main.bounds, style: UITableViewStyle.plain)
         tableView.delegate      =   self
         tableView.dataSource    =   self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(self.tableView)
     }
     
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: message, message: nil, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Cancel) { [unowned self] _ in
+    fileprivate func showAlert(_ message: String) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel) { [unowned self] _ in
             //            self.dismissViewControllerAnimated(true, completion: nil)
             })
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
 }
