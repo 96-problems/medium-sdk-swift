@@ -58,7 +58,7 @@ open class MediumSDKManager: NSObject {
 
         let scope = "basicProfile,publishPost,listPublications"
 
-        let oauthswift = OAuth2Swift(
+        oauthswift = OAuth2Swift(
             consumerKey:    clientID,
             consumerSecret: clientSecret,
             authorizeUrl:   authorizeURL,
