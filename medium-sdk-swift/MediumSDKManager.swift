@@ -3,7 +3,7 @@
 //
 //
 //  Created by drinkius on 20/05/16.
-//
+//  Updated by @reejosamuel on 08/11/16
 //
 
 import OAuthSwift
@@ -28,37 +28,37 @@ public enum MediumLicense: String {
     case publicDomain = "public-domain"
 }
 
-public class MediumSDKManager: NSObject {
+open class MediumSDKManager: NSObject {
 
     // Making our SDK behave like a singleton with sharedInstance
-    public static let sharedInstance = MediumSDKManager()
-    private override init() {}
+    open static let sharedInstance = MediumSDKManager()
+    fileprivate override init() {}
 
     // Using user defaults to store userID & tokens
-    public let userDefaults = NSUserDefaults.standardUserDefaults()
+    open let userDefaults = UserDefaults.standard
 
-    private let baseURL = "https://api.medium.com/v1"
-    private var oauthswift: OAuth2Swift!
-    private var credential: OAuthSwiftCredential!
-    private var credentialsJSON: JSON!
+    fileprivate let baseURL = "https://api.medium.com/v1"
+    fileprivate var oauthswift: OAuth2Swift!
+    fileprivate var credential: OAuthSwiftCredential!
+    fileprivate var credentialsJSON: JSON!
 
     // Completion handler returns state: success/failure and user's medium token or error string
-    public func doOAuthMedium(completionHandler: (String, String) -> Void) {
+    open func doOAuthMedium(_ completionHandler: @escaping (String, String) -> Void) {
 
         // Insert your app credentials here
-        let clientID = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumClientID") as! String
-        let clientSecret = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumClientSecret") as! String
+        let clientID = Bundle.main.object(forInfoDictionaryKey: "MediumClientID") as! String
+        let clientSecret = Bundle.main.object(forInfoDictionaryKey: "MediumClientSecret") as! String
 
         // API URLs
         let authorizeURL = "https://medium.com/m/oauth/authorize"
         let accessTokenUrl = baseURL + "/tokens"
-        let callbackURL = NSBundle.mainBundle().objectForInfoDictionaryKey("MediumCallbackURL") as! String
+        let callbackURL = Bundle.main.object(forInfoDictionaryKey: "MediumCallbackURL") as! String
 
         // Specify the scope of public functions your app utilizes, options: basicProfile,publishPost, and listPublications. Extended scope "uploadImage" by default can't be requested by an application.
 
         let scope = "basicProfile,publishPost,listPublications"
 
-        let oauthswift = OAuth2Swift(
+        oauthswift = OAuth2Swift(
             consumerKey:    clientID,
             consumerSecret: clientSecret,
             authorizeUrl:   authorizeURL,
@@ -66,22 +66,23 @@ public class MediumSDKManager: NSObject {
             responseType:   "code"
         )
 
-        let state: String = generateStateWithLength(20) as String
-        oauthswift.authorizeWithCallbackURL( NSURL(string: callbackURL)!, scope: scope, state: state, success: {
-            credential, response, parameters in
+        let state: String = generateState(withLength: 20)
+        oauthswift.authorize(withCallbackURL: URL(string: callbackURL)!,
+           scope: scope, state: state,
+          success: { credential, response, parameters in
 
             self.credential = credential
 
-            print("Token \(self.credential.oauth_token)")
-            print("Refresh token \(self.credential.oauth_refresh_token)")
+            print("Token \(self.credential.oauthToken)")
+            print("Refresh token \(self.credential.oauthRefreshToken)")
 
-            self.userDefaults.setBool(true, forKey: "mediumIsAuthorized")
-            self.userDefaults.setObject(self.credential.oauth_token, forKey: "mediumToken")
-            self.userDefaults.setObject(self.credential.oauth_refresh_token, forKey: "mediumRefreshToken")
+            self.userDefaults.set(true, forKey: "mediumIsAuthorized")
+            self.userDefaults.set(self.credential.oauthToken, forKey: "mediumToken")
+            self.userDefaults.set(self.credential.oauthRefreshToken, forKey: "mediumRefreshToken")
 
             self.ownCredentialsRequest() { state, response in
                 if state != "error" {
-                    completionHandler("success", self.userDefaults.objectForKey("mediumToken")! as! String)
+                    completionHandler("success", self.userDefaults.object(forKey: "mediumToken")! as! String)
                 } else {
                     let errorString = "Logged in but couldn't fetch your user details"
                     completionHandler("error", errorString)
@@ -89,7 +90,7 @@ public class MediumSDKManager: NSObject {
             }
 
             }, failure: { error in
-                self.userDefaults.setBool(false, forKey: "mediumIsAuthorized")
+                self.userDefaults.set(false, forKey: "mediumIsAuthorized")
                 let errorString = "Login failed"
                 completionHandler("error", errorString)
 //                print(error.localizedDescription, terminator: "")
@@ -98,10 +99,10 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure and medium token string if present
-    public func checkCred(completionHandler: (String, String) -> Void) {
+    open func checkCred(_ completionHandler: (String, String) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
-            let response = self.userDefaults.objectForKey("mediumToken")! as! String
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
+            let response = self.userDefaults.object(forKey: "mediumToken")! as! String
             completionHandler("success", response)
         } else {
             let response = "Not authorized on Medium"
@@ -110,9 +111,9 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure and user ID string if present
-    public func getUserID(completionHandler: (String, String) -> Void) {
-        if userDefaults.boolForKey("mediumIsAuthorized") {
-            let response = userDefaults.objectForKey("mediumUserID")! as! String
+    open func getUserID(_ completionHandler: (String, String) -> Void) {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
+            let response = userDefaults.object(forKey: "mediumUserID")! as! String
             completionHandler("success", response)
         } else {
             let response = "Not authorized on Medium"
@@ -121,9 +122,9 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure and medium token string if present
-    public func getToken(completionHandler: (String, String) -> Void) {
-        if userDefaults.boolForKey("mediumIsAuthorized") {
-            let response = userDefaults.objectForKey("mediumToken")! as! String
+    open func getToken(_ completionHandler: (String, String) -> Void) {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
+            let response = userDefaults.object(forKey: "mediumToken")! as! String
             completionHandler("success", response)
         } else {
             let response = "Not authorized on Medium"
@@ -132,12 +133,12 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, and explanation string
-    public func signOutMedium(completionHandler: (String, String) -> Void) {
+    open func signOutMedium(_ completionHandler: (String, String) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
-            self.userDefaults.setBool(false, forKey: "mediumIsAuthorized")
-            self.userDefaults.setObject(nil, forKey: "mediumToken")
-            self.userDefaults.setObject(nil, forKey: "mediumRefreshToken")
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
+            self.userDefaults.set(false, forKey: "mediumIsAuthorized")
+            self.userDefaults.set(nil, forKey: "mediumToken")
+            self.userDefaults.set(nil, forKey: "mediumRefreshToken")
 
             let response = "Signed out"
             completionHandler("success", response)
@@ -148,11 +149,11 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, and user ID as a string if present
-    public func ownCredentialsRequest(completionHandler: (String, String) -> Void) {
+    open func ownCredentialsRequest(_ completionHandler: @escaping (String, String) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
 
-            let token = userDefaults.objectForKey("mediumToken")!
+            let token = userDefaults.object(forKey: "mediumToken")!
             let url = baseURL + "/me"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -161,10 +162,10 @@ public class MediumSDKManager: NSObject {
                 "Accept-Charset": "utf-8"
             ]
 
-            Alamofire.request(.GET, url, headers: headers)
+          Alamofire.request(url, method: .get, headers: headers)
                 .responseJSON { response in
 
-                    if let value: AnyObject = response.result.value {
+                    if let value: AnyObject = response.result.value as AnyObject? {
 
                         let responseJSON = JSON(value)
                         let credentialsJSON = responseJSON["data"]
@@ -173,8 +174,8 @@ public class MediumSDKManager: NSObject {
                             let userID = responseJSON["data"]["id"].string
                             self.credentialsJSON = credentialsJSON
                             if userID != nil {
-                                self.userDefaults.setObject(userID, forKey: "mediumUserID")
-                                completionHandler("success", self.userDefaults.objectForKey("mediumUserID")! as! String)
+                                self.userDefaults.set(userID, forKey: "mediumUserID")
+                                completionHandler("success", self.userDefaults.object(forKey: "mediumUserID")! as! String)
                             } else {
                                 completionHandler("error", "Couldn't fetch your User ID")
                             }
@@ -190,12 +191,12 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, number of users publications as string and publications JSON if present
-    public func userPublicationsListRequest(completionHandler: (String, String, JSON) -> Void) {
+    open func userPublicationsListRequest(_ completionHandler: @escaping (String, String, JSON) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
 
-            let token = userDefaults.objectForKey("mediumToken")!
-            let userID = userDefaults.objectForKey("mediumUserID")! as! String
+            let token = userDefaults.object(forKey: "mediumToken")!
+            let userID = userDefaults.object(forKey: "mediumUserID")! as! String
             let url = baseURL + "/users/" + userID + "/publications"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -204,11 +205,11 @@ public class MediumSDKManager: NSObject {
                 "Accept-Charset": "utf-8"
             ]
 
-            Alamofire.request(.GET, url, headers: headers)
+          Alamofire.request(url, method: .get ,headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                    print(response)
 
-                    if let value: AnyObject = response.result.value {
+                    if let value: AnyObject = response.result.value as AnyObject? {
 
                         let responseJSON = JSON(value)
                         let publicationsJSON = responseJSON["data"]
@@ -243,11 +244,11 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, number of users publications as string and publications JSON if present
-    public func getListOfContributors(publicationId: String, completionHandler: (String, String, JSON) -> Void) {
+    open func getListOfContributors(_ publicationId: String, completionHandler: @escaping (String, String, JSON) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
 
-            let token = userDefaults.objectForKey("mediumToken")!
+            let token = userDefaults.object(forKey: "mediumToken")!
             let url = baseURL + "/publications/" + publicationId + "/contributors"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -256,11 +257,11 @@ public class MediumSDKManager: NSObject {
                 "Accept-Charset": "utf-8"
             ]
 
-            Alamofire.request(.GET, url, headers: headers)
+            Alamofire.request(url, method: .get, headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                   print(response)
 
-                    if let value: AnyObject = response.result.value {
+                    if let value: AnyObject = response.result.value as AnyObject? {
 
                         let responseJSON = JSON(value)
                         let contributorsJSON = responseJSON["data"]
@@ -294,12 +295,12 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, and error message if present
-    public func createPost(title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
+    open func createPost(_ title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil,  publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: @escaping (String, String) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
 
-            let token = userDefaults.objectForKey("mediumToken")!
-            let userID = self.userDefaults.objectForKey("mediumUserID")! as! String
+            let token = userDefaults.object(forKey: "mediumToken")!
+            let userID = self.userDefaults.object(forKey: "mediumUserID")! as! String
             let url = baseURL + "/users/" + userID + "/posts"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -308,29 +309,33 @@ public class MediumSDKManager: NSObject {
                 "Accept-Charset": "utf-8"
             ]
             var parameters: [String : AnyObject] = [
-                "title": title,
-                "contentFormat": contentFormat,
-                "content": content
+                "title": title as AnyObject,
+                "contentFormat": contentFormat as AnyObject,
+                "content": content as AnyObject
             ]
 
             if canonicalUrl != nil {
-                parameters["canonicalUrl"] = canonicalUrl!
+                parameters["canonicalUrl"] = canonicalUrl! as AnyObject?
             }
             if tags != nil {
-                parameters["tags"] = tags!
+                parameters["tags"] = tags! as AnyObject?
             }
             if publishStatus != nil {
-                parameters["publishStatus"] = publishStatus!.rawValue
+                parameters["publishStatus"] = publishStatus!.rawValue as AnyObject?
             }
             if license != nil {
-                parameters["license"] = license!.rawValue
+                parameters["license"] = license!.rawValue as AnyObject?
             }
 
-            Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
+            Alamofire.request(url,
+                              method: .post,
+                              parameters: parameters,
+                              encoding: JSONEncoding.default,
+                              headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                    print(response)
 
-                    if let value: AnyObject = response.result.value {
+                    if let value: AnyObject = response.result.value as AnyObject? {
 
                         let responseJSON = JSON(value)
 
@@ -358,11 +363,11 @@ public class MediumSDKManager: NSObject {
     }
 
     // Completion handler returns state: success/failure, and error message if present
-    public func createPostUnderPublication(rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: (String, String) -> Void) {
+    open func createPostUnderPublication(_ rootPublication: String, title: String, contentFormat: String, content: String, canonicalUrl: String?=nil, tags: [String]?=nil, publishStatus: MediumPublishStatus?=nil, license: MediumLicense?=nil, completionHandler: @escaping (String, String) -> Void) {
 
-        if userDefaults.boolForKey("mediumIsAuthorized") {
+        if userDefaults.bool(forKey: "mediumIsAuthorized") {
 
-            let token = userDefaults.objectForKey("mediumToken")!
+            let token = userDefaults.object(forKey: "mediumToken")!
             let url = baseURL + "/publications/" + rootPublication + "/posts"
             let headers = [
                 "Authorization": "Bearer \(token)",
@@ -371,29 +376,32 @@ public class MediumSDKManager: NSObject {
                 "Accept-Charset": "utf-8"
             ]
             var parameters: [String : AnyObject] = [
-                "title": title,
-                "contentFormat": contentFormat,
-                "content": content,
+                "title": title as AnyObject,
+                "contentFormat": contentFormat as AnyObject,
+                "content": content as AnyObject,
                 ]
 
             if canonicalUrl != nil {
-                parameters["canonicalUrl"] = canonicalUrl!
+                parameters["canonicalUrl"] = canonicalUrl! as AnyObject?
             }
             if tags != nil {
-                parameters["tags"] = tags!
+                parameters["tags"] = tags! as AnyObject?
             }
             if publishStatus != nil {
-                parameters["publishStatus"] = publishStatus!.rawValue
+                parameters["publishStatus"] = publishStatus!.rawValue as AnyObject?
             }
             if license != nil {
-                parameters["license"] = license!.rawValue
+                parameters["license"] = license!.rawValue as AnyObject?
             }
 
-            Alamofire.request(.POST, url, parameters: parameters, headers: headers, encoding: .JSON)
+            Alamofire.request(url, method: .post,
+                              parameters: parameters,
+                              encoding: JSONEncoding.default,
+                              headers: headers)
                 .responseJSON { response in
-//                    print(response)
+                    print(response)
 
-                    if let value: AnyObject = response.result.value {
+                    if let value: AnyObject = response.result.value as AnyObject? {
 
                         let responseJSON = JSON(value)
 
