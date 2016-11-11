@@ -19,5 +19,5 @@ Pod::Spec.new do |s|
 
   s.dependency 'OAuthSwift', '~> 1.0'
   s.dependency 'SwiftyJSON', '~> 3.1'
-  s.dependency 'Alamofire', '~> 4.0'
+  s.dependency 'Alamofire',  '~> 4.0'
 end
