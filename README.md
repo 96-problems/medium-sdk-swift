@@ -17,7 +17,7 @@ Medium SDK - Swift
 ## Compatibility
 
 - iOS 9.0+
-- osx 10.10
+~- osx 10.10~
 
 ## Installation
 
@@ -139,7 +139,8 @@ createPostUnderPublication(rootPublication: String, title: String, contentFormat
 Note that publish status and licence fields are coded as enums with all the possible states of these parameters, when creating a publication just use the proper values.
 
 ## Release History
-
+* 0.1.1
+    * Remove OSX
 * 0.1.0
     * Update syntax for Swift 3.0
     * Drop support <= iOS 9.0
@@ -161,7 +162,10 @@ We would love for you to contribute to **Medium SDK - Swift**, check the ``LICEN
 ## Meta
 
 Original author:
-Alexander Telegin – [@drinkius](https://github.com/drinkius) – telegin.alexander@gmail.com
+- Alexander Telegin – [@drinkius](https://github.com/drinkius) – telegin.alexander@gmail.com
+
+Maintained:
+- Fernando Bass = [@ferbass](https://github.com/ferbass)
 
 Contributions by
 - Reejo Samuel - [@reejosamuel](https://github.com/reejosamuel)
