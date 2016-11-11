@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'MediumSDKSwift'
-  s.version  = '0.1.0'
+  s.version  = '0.1.1'
   s.summary  = 'A swift SDK for Medium\'s OAuth2 API https://medium.com'
   s.homepage = 'https://github.com/96-problems/medium-sdk-swift'
   s.license  = { :type => 'MIT' }
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
 
   s.source = { :git => 'https://github.com/96-problems/medium-sdk-swift.git',
-               :tag => '0.1.0' }
+               :tag => '0.1.1' }
 
   s.source_files = 'medium-sdk-swift/*.swift'
 
