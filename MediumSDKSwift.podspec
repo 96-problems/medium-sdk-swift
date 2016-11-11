@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
                  'ndethore' => 'nicolas.dethore@gmail.com' }
 
   s.requires_arc          = true
-  s.osx.deployment_target = '10.10'
   s.ios.deployment_target = '9.0'
 
   s.source = { :git => 'https://github.com/96-problems/medium-sdk-swift.git',
